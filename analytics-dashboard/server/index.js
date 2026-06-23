@@ -2,13 +2,16 @@ const express = require('express');
 const cors    = require('cors');
 require('dotenv').config();
 
-
 const app = express();
-console.log('EMAIL_USER loaded:', process.env.EMAIL_USER);
+
 // Allow the React frontend (and local test tools like VS Code Live Server)
 // to call this API. Add more origins here as needed during development.
 // FRONTEND_URL is set in Render's environment variables to your live
 // Vercel URL, e.g. https://analytics-dashboard-xxxx.vercel.app
+//
+// When you build a separate portfolio/website later and want to track it
+// with tracker.js, add its live URL here too, e.g.:
+//   'https://your-portfolio-name.vercel.app'
 const allowedOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:5500',
