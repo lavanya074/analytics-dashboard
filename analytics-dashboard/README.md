@@ -149,5 +149,9 @@ taskkill /PID <the_number_shown> /F
 ```
 
 ---
+**Live Server URL**
+https://analytics-dashboard-soet.vercel.app/register
+
+<img width="620" height="647" alt="image" src="https://github.com/user-attachments/assets/42bbe8e3-6c19-403e-9ae0-29b548728c03" />
 
 
