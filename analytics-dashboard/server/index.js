@@ -6,9 +6,17 @@ const app = express();
 
 // Allow the React frontend (and local test tools like VS Code Live Server)
 // to call this API. Add more origins here as needed during development.
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:5500', 'http://localhost:5500']
-}));
+// FRONTEND_URL is set in Render's environment variables to your live
+// Vercel URL, e.g. https://analytics-dashboard-xxxx.vercel.app
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:5500',
+  'http://localhost:5500'
+];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+app.use(cors({ origin: allowedOrigins }));
 
 // Parse incoming JSON request bodies
 app.use(express.json());
