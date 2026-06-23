@@ -4,8 +4,11 @@ require('dotenv').config();
 
 const app = express();
 
-// Allow the React frontend to call this API
-app.use(cors({ origin: 'http://localhost:3000' }));
+// Allow the React frontend (and local test tools like VS Code Live Server)
+// to call this API. Add more origins here as needed during development.
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:5500', 'http://localhost:5500']
+}));
 
 // Parse incoming JSON request bodies
 app.use(express.json());

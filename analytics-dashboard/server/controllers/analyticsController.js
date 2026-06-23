@@ -13,16 +13,21 @@ const ingestEvent = async (req, res) => {
 
   try {
     await db.query(
+      `DELETE FROM events WHERE org_id = ? AND is_demo = true`,
+      [org_id]
+    );
+
+    await db.query(
       `INSERT INTO events (org_id, event_type, properties)
        VALUES (?, ?, ?)`,
       [org_id, event_type, JSON.stringify(properties || {})]
     );
     res.status(201).json({ message: 'Event recorded' });
   } catch (err) {
+    console.error(err);          // ← add this line
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 // GET OVERVIEW — total count + daily trend + breakdown by type.
 // Every query is scoped by org_id — this is the multi-tenancy safety net.
 const getOverview = async (req, res) => {
@@ -63,10 +68,19 @@ const getOverview = async (req, res) => {
       [org_id, start, end]
     );
 
+    // Tell the frontend whether what it's showing is demo data, so it
+    // can render a banner instead of presenting fake numbers as real.
+    const [demoRows] = await db.query(
+      `SELECT COUNT(*) AS demoCount FROM events
+       WHERE org_id = ? AND is_demo = true`,
+      [org_id]
+    );
+
     res.json({
       total:     totalRows[0].total,
       trend:     trendRows,
-      breakdown: breakdownRows
+      breakdown: breakdownRows,
+      isDemo:    demoRows[0].demoCount > 0
     });
 
   } catch (err) {

@@ -63,6 +63,14 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {data?.isDemo && (
+        <div style={s.demoBanner}>
+          You're viewing sample demo data. Install the tracking snippet
+          (Settings → API Key) to start seeing real visitor activity — it'll
+          replace this automatically.
+        </div>
+      )}
+
       <div style={s.filterRow}>
         <span style={s.filterLabel}>From</span>
         <input style={s.dateInput} type="date" value={from} onChange={e => setFrom(e.target.value)} />
@@ -135,6 +143,7 @@ const s = {
   statVal:     { fontSize: '24px', fontWeight: 500, margin: 0 },
   chartCard:   { background: '#fff', border: '1px solid #eee', borderRadius: '12px', padding: '16px', marginBottom: '16px' },
   chartTitle:  { fontSize: '13px', fontWeight: 500, color: '#555', margin: '0 0 12px' },
+  demoBanner:  { background: '#FFF7E6', border: '1px solid #FFE2A8', color: '#8A5A00', fontSize: '13px', padding: '10px 14px', borderRadius: '8px', marginBottom: '16px' },
   testBtn:     { padding: '8px 14px', fontSize: '13px', background: '#4F46E5', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' },
   settingsBtn: { padding: '8px 14px', fontSize: '13px', background: '#fff', border: '1px solid #ddd', borderRadius: '8px', cursor: 'pointer', textDecoration: 'none', color: '#333' },
   logoutBtn:   { padding: '8px 14px', fontSize: '13px', background: '#fff', border: '1px solid #ddd', borderRadius: '8px', cursor: 'pointer' },

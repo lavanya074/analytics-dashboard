@@ -42,3 +42,14 @@ CREATE TABLE IF NOT EXISTS api_keys (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (org_id) REFERENCES organizations(id)
 );
+
+CREATE TABLE IF NOT EXISTS events (
+  id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+  org_id      INT NOT NULL,
+  event_type  VARCHAR(100) NOT NULL,
+  properties  JSON,
+  is_demo     BOOLEAN DEFAULT false,
+  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_org_time (org_id, created_at),
+  FOREIGN KEY (org_id) REFERENCES organizations(id)
+);

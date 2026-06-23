@@ -2,8 +2,9 @@ const db     = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt    = require('jsonwebtoken');
 
-// Seed 50 demo events spread across the last 14 days
-// so the dashboard is never empty on first login.
+// NOTE: demo seeding has been disabled — see register() below.
+// Left here (unused) in case you want to re-enable it later, e.g. behind
+// a "Load sample data" button on an empty dashboard instead of automatically.
 const seedDemoEvents = async (org_id) => {
   const types = ['page_view', 'button_click', 'user_signup', 'page_exit'];
   const pages = ['/', '/pricing', '/features', '/contact', '/about'];
@@ -17,14 +18,14 @@ const seedDemoEvents = async (org_id) => {
     date.setHours(Math.floor(Math.random() * 24));
 
     await db.query(
-      `INSERT INTO events (org_id, event_type, properties, created_at)
-       VALUES (?, ?, ?, ?)`,
+      `INSERT INTO events (org_id, event_type, properties, created_at, is_demo)
+       VALUES (?, ?, ?, ?, true)`,
       [org_id, type, JSON.stringify({ page }), date]
     );
   }
 };
 
-// REGISTER — creates org + admin user + seeds demo data + returns JWT
+// REGISTER — creates org + admin user + returns JWT
 const register = async (req, res) => {
   const { orgName, name, email, password } = req.body;
 
@@ -60,8 +61,8 @@ const register = async (req, res) => {
       [orgId, name || 'Admin', email, hash]
     );
 
-    // Step 4 — seed demo events so dashboard isn't empty
-    await seedDemoEvents(orgId);
+    // Step 4 — (demo seeding removed) new orgs now start with a clean,
+    // empty dashboard instead of 50 fake events.
 
     // Step 5 — issue JWT
     const token = jwt.sign(
@@ -97,8 +98,6 @@ const login = async (req, res) => {
       [email]
     );
 
-    // Always say "Invalid credentials" — never reveal
-    // whether the email exists or the password was wrong
     if (rows.length === 0) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
