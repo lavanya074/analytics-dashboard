@@ -25,7 +25,7 @@ export default function Settings() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const snippet = `<script src="http://localhost:5000/tracker.js"></script>\n<script>Analytics.init("${apiKey || 'YOUR_API_KEY'}")</script>`;
+  const snippet = `<script src="https://analytics-dashboard-efi6.onrender.com/events"></script>\n<script>Analytics.init("${apiKey || 'YOUR_API_KEY'}")</script>`;
 
   const copySnippet = () => {
     navigator.clipboard.writeText(snippet);
