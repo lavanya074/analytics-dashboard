@@ -4,7 +4,7 @@ import axios from 'axios';
 // REACT_APP_API_URL to your deployed Render backend, e.g.
 // https://analytics-api-abc.onrender.com/api
 const api = axios.create({
-  baseURL: 'https://analytics-dashboard-efi6.onrender.com/events'
+  baseURL: 'https://analytics-dashboard-efi6.onrender.com/api'
 });
 
 // Automatically attach the JWT to every outgoing request
