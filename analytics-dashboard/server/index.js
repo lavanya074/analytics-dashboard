@@ -4,14 +4,9 @@ require('dotenv').config();
 
 const app = express();
 
-// Allow the React frontend (and local test tools like VS Code Live Server)
-// to call this API. Add more origins here as needed during development.
-// FRONTEND_URL is set in Render's environment variables to your live
-// Vercel URL, e.g. https://analytics-dashboard-xxxx.vercel.app
-//
-// When you build a separate portfolio/website later and want to track it
-// with tracker.js, add its live URL here too, e.g.:
-//   'https://your-portfolio-name.vercel.app'
+// Restricted CORS — only your own dashboard frontend may call
+// login/register endpoints. FRONTEND_URL is set in Render's environment
+// variables to your live Vercel URL.
 const allowedOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:5500',
@@ -20,7 +15,7 @@ const allowedOrigins = [
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
-app.use(cors({ origin: allowedOrigins }));
+app.use('/api/auth', cors({ origin: allowedOrigins }));
 
 // Parse incoming JSON request bodies
 app.use(express.json());
@@ -28,7 +23,12 @@ app.use(express.json());
 // Serve tracker.js as a public static file — GET /tracker.js
 app.use(express.static('public'));
 
-// Mount routes
+// Mount routes.
+// auth.js      -> restricted above by the cors() call just before this
+// analytics.js -> handles its own CORS per-route internally, see that file:
+//   /events             -> open CORS (any website, secured by API key)
+//   /analytics/overview -> restricted CORS (dashboard only)
+//   /settings/api-key   -> restricted CORS (dashboard only)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api',      require('./routes/analytics'));
 
