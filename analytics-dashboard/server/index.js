@@ -2,8 +2,9 @@ const express = require('express');
 const cors    = require('cors');
 require('dotenv').config();
 
-const app = express();
 
+const app = express();
+console.log('EMAIL_USER loaded:', process.env.EMAIL_USER);
 // Allow the React frontend (and local test tools like VS Code Live Server)
 // to call this API. Add more origins here as needed during development.
 // FRONTEND_URL is set in Render's environment variables to your live
