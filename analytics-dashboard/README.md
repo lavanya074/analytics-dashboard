@@ -126,19 +126,6 @@ If all of this works — your project is fully functional locally.
 
 ---
 
-## Step 7 — Deploy (optional, to get a live URL)
-
-1. **Database** — create a free MySQL instance on [Railway](https://railway.app),
-   run `schema.sql` on it.
-2. **Backend** — deploy the `server` folder to [Render](https://render.com).
-   Build command: `npm install`. Start command: `node index.js`.
-   Add the same environment variables as your `.env`, pointing at the
-   Railway database.
-3. Update `server/public/tracker.js` — change `API_URL` to your Render URL.
-4. **Frontend** — update `client/src/api/axiosInstance.js` — change
-   `baseURL` to your Render URL. Deploy the `client` folder to
-   [Vercel](https://vercel.com).
-5. Update CORS in `server/index.js` to allow your Vercel URL.
 
 ---
 
@@ -163,15 +150,4 @@ taskkill /PID <the_number_shown> /F
 
 ---
 
-## Architecture notes (useful for interviews)
 
-- **Multi-tenancy**: every SQL query is scoped by `org_id`, which always
-  comes from the JWT or API key — never from the request body. This is what
-  prevents one organization from ever seeing another's data.
-- **Connection pool**: `config/db.js` keeps 10 MySQL connections open and
-  reused, instead of opening a new one per request.
-- **Composite index** on `events(org_id, created_at)` keeps dashboard
-  queries fast as the table grows.
-- **Two auth systems**: JWT for logged-in dashboard users, API keys (hashed
-  with SHA-256) for the tracker snippet running on external websites.
-- **Passwords** are hashed with bcrypt — never stored in plain text.
