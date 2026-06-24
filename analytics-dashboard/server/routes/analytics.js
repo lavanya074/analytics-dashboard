@@ -22,11 +22,15 @@ if (process.env.FRONTEND_URL) {
 const restrictedCors = cors({ origin: allowedOrigins });
 
 // Open CORS — ANY website, anywhere, can call this endpoint.
-// Security comes from the x-api-key header (checked in apiKeyAuth),
-// not from which domain sent the request. This means you never have
-// to add a new domain here just because someone connects a new website
-// to track with tracker.js.
 const openCors = cors();
+
+// IMPORTANT: router.options() explicitly handles the browser's automatic
+// preflight OPTIONS request for each path, using the same CORS rules.
+// Without this, the OPTIONS request never matches any route and the
+// browser blocks the real POST/GET that follows.
+router.options('/events', openCors);
+router.options('/analytics/overview', restrictedCors);
+router.options('/settings/api-key', restrictedCors);
 
 // POST /api/events — open to any website, protected by API key only
 router.post('/events', openCors, apiKeyAuth, ingestEvent);
