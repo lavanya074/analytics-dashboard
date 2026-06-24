@@ -6,7 +6,7 @@ const Analytics = (() => {
 
   // CHANGE THIS to your deployed Render URL when you go live, e.g.
   // 'https://analytics-api-abc.onrender.com/api/events'
-  const API_URL = 'https://analytics-dashboard-efi6.onrender.com/events';
+  const API_URL = 'https://analytics-dashboard-efi6.onrender.com/api/events';
 
   // Called once: Analytics.init("your_api_key")
   const init = (key) => {
