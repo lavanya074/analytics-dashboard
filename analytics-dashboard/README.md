@@ -153,5 +153,7 @@ taskkill /PID <the_number_shown> /F
 https://analytics-dashboard-soet.vercel.app/register
 
 <img width="620" height="647" alt="image" src="https://github.com/user-attachments/assets/42bbe8e3-6c19-403e-9ae0-29b548728c03" />
+<img width="1208" height="873" alt="image" src="https://github.com/user-attachments/assets/f88a69c2-6f31-4b28-bb47-3d97dfe4942a" />
+
 
 
